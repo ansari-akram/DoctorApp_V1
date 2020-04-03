@@ -27,11 +27,8 @@ def test_in_pathology(request):
     global len_value
     global value
     if request.method == 'POST':
-        print('in post')
         value = request.POST.getlist('test')
         len_value = len(value)
-        print(len_value)
-        print(value)
         return HttpResponseRedirect('/image_upload/')
 
     else:
@@ -40,9 +37,7 @@ def test_in_pathology(request):
             test_list.append(test)
         patients = Patient_Details.objects.all()
         length = len(patients) - 1
-        print(length)
         patient_name = patients[length]
-        print(patient_name)
 
     return render(request, 'test_in_pathology.html', {'tests': test_list, 'patient_name': patient_name})
 
@@ -61,15 +56,10 @@ def report_view(request):
     heat_list = list(heatmap)
 
     value
-
-    for i in value:
-        print(i)
-
     newlist = results_list[-len_value:]
     confList = conf_list[-len_value:]
     heatList = heat_list[-len_value:]
     upload_image = os.getcwd() + os.sep + "Pathology" + os.sep + "static" + os.sep + "uploadImage" + os.sep + "upload.jpg"
-    print('heatList', heatList)
 
     tests = Test_Pathology.objects.all()
     for test in tests:
@@ -101,32 +91,20 @@ def image_upload_view(request):
             for val in value:
                 test = Test_Pathology.objects.get(some_test='{0}'.format(val))
                 url = test.api_url
-                # print(test)
-                # print(url)
                 length = len(Image_Input.objects.all())
                 image = Image_Input.objects.filter(id=length)
                 for img in image:
                     img = str(img)
                     sli = slice(16, -1)
                     img = img[sli] + "g"
-                    # filename = '/home/kernel/Lab_Working_1/media/Patient_reports/' + img
                     import os
                 cwd = os.getcwd() + os.sep + 'media' + os.sep + 'Patient_reports' + os.sep
                 filename = cwd + img
-                print('filename', filename)
                 destination = os.getcwd() + os.sep + "Pathology" + os.sep + "static" + os.sep + "uploadImage" + os.sep + "upload.jpg"
-                print('destination', destination)
-                # P:\DoctorApp\Lab_Working_1\Pathology\static\uploadImage
                 from shutil import copy
                 copy(filename, destination)
-                # 'E:\Lab_Working_1\media\Patient_reports\' + img
                 output = detect_image_label(filename, url)
-                print('new', output)
                 conf = str(output[2])
-                # Reports.objects.create(location_id=1, patient_details_id='1', image_output=output[1], description='report_description', test_id=1)
-
-                # / home / kernel / shazan / 11
-                # dec2019 / Lab_Working_1 / Pathology / static / heatmap
 
                 import urllib.request
                 urllib.request.urlretrieve(output[3],
@@ -141,9 +119,7 @@ def image_upload_view(request):
             test_list.append(test)
         patients = Patient_Details.objects.all()
         length = len(patients) - 1
-        print(length)
         patient_name = patients[length]
-        print(patient_name)
         form = Image_Input_Forms()
 
     return render(request, 'Image_Upload.html', {'form': form, 'patient_name': patient_name})
@@ -174,18 +150,6 @@ def patient_details_view(request):
 
 
 def final_reports_view(request):
-    # patient = Patient_Details.objects.all()
-    # reports = Reports.objects.all()
-    # length_report = len(reports) - 1
-    # length_patient = len(patient) - 1
-    # patient_name = patient[length_patient]
-    # print(patient_name)
-    # print('------------------------------------------')
-    # print(reports[length_report])
-    # context = {
-    #     'reports': reports[length_report],
-    #     'patient': patient_name
-    # }
     return render(request, 'final_report_view.js')
 
 
