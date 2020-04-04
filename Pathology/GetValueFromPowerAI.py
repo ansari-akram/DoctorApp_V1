@@ -25,6 +25,7 @@ def detect_image_label(file_name, url):
     result = ''
     while (rc11 != 200) and (retry_count < 5):
         if retry_count != 0:
+            print("[+] Retrying uploading image to Server...")
 
         try:
             with open(file_name, 'rb') as f:
