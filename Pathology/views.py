@@ -67,10 +67,15 @@ def report_view(request):
     patients = Patient_Details.objects.all()
     length = len(patients) - 1
     patient_name = patients[length]
+    
+    confListNew = []
+    for i in confList:
+        temp = round(i, 2)
+        confListNew.append(temp)
 
     context = {
         'heatList': heatList,
-        'confList': confList,
+        'confList': confListNew,
         'newlist': newlist,
         'value': value,
         'patient_name': patient_name,
